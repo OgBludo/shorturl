@@ -11,7 +11,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.Scanner;
 
 
 public class LinksEditor {
@@ -40,7 +39,8 @@ public class LinksEditor {
             JSONObject jsonObject = data.getJSONObject(i);
             if (jsonObject.getString("UUID").equals(UUID) && jsonObject.getString("longURL").equals(longURL)) {
                 shortURL = jsonObject.getString("shortURL");
-                System.out.println("\nКороткая ссылка уже существует!\n");
+                updateShortLink(shortURL, UUID, ttl, noc);
+                shortURL = jsonObject.getString("shortURL");
                 break;
             }
         }
@@ -57,6 +57,7 @@ public class LinksEditor {
             data.put(newLink);
 
             save();
+
         }
         return shortURL;
     }
@@ -111,7 +112,6 @@ public class LinksEditor {
             } else if (jsonObject.getString("UUID").equals(UUID) && jsonObject.getInt("num_of_clicks") == 0 && jsonObject.getString("shortURL").equals(shortURL)) {
                 System.out.println("Кол-во переходов по ссылке закончилось - ссылка будет удалена!");
                 data.remove(i);
-                i--;
                 return;
             }
         }
@@ -143,16 +143,17 @@ public class LinksEditor {
     }
 
     // Функция изменения короткой ссылки
-    public static void updateShortLink(String oldShortURL, String UUID) {
-        Scanner scanner = new Scanner(System.in);
+    public static void updateShortLink(String oldShortURL, String UUID, int ttl, int noc) {
         for (int i = 0; i < data.length(); i++) {
             JSONObject jsonObject = data.getJSONObject(i);
             if (jsonObject.getString("UUID").equals(UUID) && jsonObject.getString("shortURL").equals(oldShortURL)) {
-                System.out.print("Введите новую короткую ссылку: ");
-                String newShortURL = scanner.nextLine();
+                String newShortURL = generateUniqueURL();
                 jsonObject.put("shortURL", newShortURL);
+                jsonObject.put("num_of_clicks", noc);
+                jsonObject.put("time_to_live", ttl);
+                jsonObject.put("created_at", System.currentTimeMillis());
                 data.put(i, jsonObject);
-                System.out.println("Ссылка " + oldShortURL + " изменена на " + newShortURL);
+                System.out.println("Ссылка " + oldShortURL + " изменена на " + newShortURL + "\n");
                 save();
                 return;
             }

@@ -88,7 +88,7 @@ public class URLShortener {
                 case 4:
                     System.out.print("\n Введите старую короткую ссылку: ");
                     String oldShortURL = scanner.nextLine();
-                    LinksEditor.updateShortLink(oldShortURL, userUUID);
+                    LinksEditor.updateShortLink(oldShortURL, userUUID, timeToLive, numOfClicks);
                     break;
                 case 5:
                     LinksEditor.displayAllLinks(userUUID);
