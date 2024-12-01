@@ -20,8 +20,8 @@ public class URLShortener {
 
         // Чтение настроек (едактируются в файле config.txt)
         GetConfig.SetConfig();
-        numOfClicks = GetConfig.GetNumOfClicks();
-        timeToLive = GetConfig.GetTTL();
+        int numOfClicks = GetConfig.GetNumOfClicks();
+        int timeToLive = GetConfig.GetTTL();
 
         // Чтение существующих записей (links.json - там хранятся все ссылки)
         LinksEditor.GetLinks();
@@ -62,7 +62,9 @@ public class URLShortener {
             System.out.println("3. Удалить короткую ссылку");
             System.out.println("4. Изменить короткую ссылку");
             System.out.println("5. Отобразить все ссылки");
-            System.out.println("6. Выйти");
+            System.out.println("6. Изменить время жизни ссылки(можно в файле)");
+            System.out.println("7. Изменить количество переходов ссылки(можно в файле)");
+            System.out.println("8. Выйти");
             System.out.print("Выберите опцию: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -94,6 +96,14 @@ public class URLShortener {
                     LinksEditor.displayAllLinks(userUUID);
                     break;
                 case 6:
+                    System.out.print("\n Введите новое время жизни в миллисекундах: ");
+                    timeToLive = scanner.nextInt();
+                    break;
+                case 7:
+                    System.out.print("\n Введите новое количество переходов ссылки: ");
+                    numOfClicks = scanner.nextInt();
+                    break;
+                case 8:
                     System.out.println("Выход из программы.");
                     LinksEditor.save();
                     return;
