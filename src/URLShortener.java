@@ -20,8 +20,8 @@ public class URLShortener {
 
         // Чтение настроек (едактируются в файле config.txt)
         GetConfig.SetConfig();
-        int numOfClicks = GetConfig.GetNumOfClicks();
-        int timeToLive = GetConfig.GetTTL();
+        numOfClicks = GetConfig.GetNumOfClicks();
+        timeToLive = GetConfig.GetTTL();
 
         // Чтение существующих записей (links.json - там хранятся все ссылки)
         LinksEditor.GetLinks();
